@@ -1,2 +1,2 @@
-# retail-ya-later
+# Retail-Ya-Later
 Retail calculator
