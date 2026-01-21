@@ -39,7 +39,7 @@ function App() {
             Retail-Ya-Later
           </h1>
           <p className="mt-2 text-lg text-slate-600">
-            Calculate subtotals, bulk discounts, and refional taxes instantly!
+            Calculate subtotals, bulk discounts, and regional taxes instantly!
           </p>
         </header>
         {/* Main Card */}
