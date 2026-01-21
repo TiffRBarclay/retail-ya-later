@@ -1,15 +1,20 @@
 /**
- * Core calculation logic for the Retail Calculator.
- * Separated from the UI to ensure testability and maintainability.
+ * Calculates the discount amount based on the total order value.
+ * Current Rule: Orders of $1,000 or more receive a 3% discount.
+ * * @param {number} subtotal - The raw total (quantity * price)
+ * @returns The dollar amount to be discounted
  */
+export const calculateDiscount = (subtotal: number): number => {
+  if (subtotal >= 1000) {
+    return subtotal * 0.03;
+  }
+  return 0;
+};
 
 /**
  * Calculates the raw subtotal before discounts or taxes.
- * @param {number} quantity - Number of items (must be non-negative)
- * @param {number} pricePerItem - Price per item (must be non-negative)
- * @returns {number} The product of quantity and price
  */
-export const calculateSubtotal = (quantity: number, pricePerItem: number): number => {
-    if (quantity < 0 || pricePerItem < 0) return 0;
-    return quantity * pricePerItem;
-}
+export const calculateSubtotal = (quantity: number, price: number): number => {
+  if (quantity < 0 || price < 0) return 0;
+  return quantity * price;
+};
