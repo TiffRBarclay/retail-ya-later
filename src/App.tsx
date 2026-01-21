@@ -1,7 +1,11 @@
 import { useMemo, useState, type ChangeEvent } from "react";
 import "./App.css";
 import InputField from "./components/InputField";
-import { calculateDiscount, calculateSubtotal } from "./utils/calculator";
+import {
+  calculateDiscount,
+  calculateSubtotal,
+  getDiscountRate,
+} from "./utils/calculator";
 
 function App() {
   const [quantity, setQuantity] = useState<number>(0);
@@ -19,13 +23,13 @@ function App() {
    * Compute the subtotal whenever quantity or price changes.
    * We convert strings to numbers here to keep the UI input flexible.
    */
-  const subtotal = useMemo(() => {
-    return calculateSubtotal(Number(quantity), Number(price));
-  }, [quantity, price]);
+  const subtotal = useMemo(
+    () => calculateSubtotal(Number(quantity), Number(price)),
+    [quantity, price],
+  );
 
-  const discountAmount = useMemo(() => {
-    return calculateDiscount(subtotal);
-  }, [subtotal]);
+  const discountRate = useMemo(() => getDiscountRate(subtotal), [subtotal]);
+  const discountAmount = useMemo(() => calculateDiscount(subtotal), [subtotal]);
 
   const totalAfterDiscount = subtotal - discountAmount;
 
@@ -39,7 +43,7 @@ function App() {
             Retail-Ya-Later
           </h1>
           <p className="mt-2 text-lg text-slate-600">
-            Calculate subtotals, bulk discounts, and refional taxes instantly!
+            Calculate subtotals, bulk discounts, and regional taxes instantly!
           </p>
         </header>
         {/* Main Card */}
@@ -72,20 +76,28 @@ function App() {
           <section className="mt-10 pt-8 border-t border-slate-100 space-y-3">
             <div className="flex justify-between items-center text-slate-500">
               <span>Subtotal</span>
-              <span>${subtotal.toFixed(2)}</span>
+              <span>
+                $
+                {subtotal.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                })}
+              </span>
             </div>
 
-            {discountAmount > 0 && (
+            {discountRate > 0 && (
               <div className="flex justify-between items-center text-green-600 font-medium">
-                <span>Discount (3%)</span>
-                <span>-${discountAmount.toFixed(2)}</span>
+                <span>Discount ({discountRate * 100}%)</span>
+                <span>
+                  -$
+                  {discountAmount.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}
+                </span>
               </div>
             )}
 
             <div className="flex justify-between items-center pt-3 border-t border-slate-50">
-              <span className="text-slate-900 font-bold">
-                Total after Discount
-              </span>
+              <span className="text-slate-900 font-bold">Total</span>
               <span className="text-3xl font-bold text-blue-600">
                 $
                 {totalAfterDiscount.toLocaleString(undefined, {

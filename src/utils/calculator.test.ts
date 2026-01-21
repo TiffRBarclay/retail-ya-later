@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { calculateDiscount, calculateSubtotal } from './calculator';
+import { calculateDiscount, calculateSubtotal, getDiscountRate } from './calculator';
 
 describe('calculateSubtotal', () => {
   it('should correctly multiply quantity and price', () => {
@@ -34,5 +34,22 @@ describe('Discount Logic - Tier 1', () => {
 
   it('should return 3% discount for totals over $1,000', () => {
     expect(calculateDiscount(2000)).toBe(60);
+  });
+});
+
+describe('Full Discount Schedule', () => {
+  const testCases = [
+    { total: 999, expectedRate: 0 },
+    { total: 1000, expectedRate: 0.03 },
+    { total: 5000, expectedRate: 0.05 },
+    { total: 7000, expectedRate: 0.07 },
+    { total: 10000, expectedRate: 0.10 },
+    { total: 50000, expectedRate: 0.15 },
+  ];
+
+  testCases.forEach(({ total, expectedRate }) => {
+    it(`should apply ${expectedRate * 100}% discount for a total of $${total}`, () => {
+      expect(getDiscountRate(total)).toBe(expectedRate);
+    });
   });
 });
