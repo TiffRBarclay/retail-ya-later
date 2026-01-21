@@ -1,73 +1,66 @@
-# React + TypeScript + Vite
+# Retail-Ya-Later
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Getting Started
 
-Currently, two official plugins are available:
+### 1. Clone & Install
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/TiffRBarclay/retail-ya-later.git
+cd retail-ya-later
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Run Development Server
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+### 1. Run Automated Tests
+
+```bash
+npm install
+```
+
+## Thoughts & Reasoning
+- **Architecture**: I chose React + Vite + TypeScript for a high-performance development environment and robust type safety.
+
+- **Slicing Strategy**: I followed a "Vertical Slice" approach, delivering functional increments (Logic + UI + Test) to ensure each task provided immediate customer value.
+
+- **Testing Strategy**: Implemented Vitest for unit testing. I prioritized "Boundary Testing" (e.g., testing exactly $1,000 for discounts) to ensure financial accuracy.
+
+- **Quality Focus**: Used JSDoc and clean TypeScript interfaces to ensure the codebase remains maintainable and self-documenting for the team.
+
+## Tasks Completed
+
+### [Issue 1](https://github.com/TiffRBarclay/retail-ya-later/issues/1) - Slice 1: Project Scaffold
+- **Included**: Environment setup with Vite, React, TypeScript, Tailwind v4, and Vitest.
+- **Value**: Establishes the technical foundation and UI template.
+- **PR**: https://github.com/TiffRBarclay/retail-ya-later/pull/11
+
+### [Issue 2](https://github.com/TiffRBarclay/retail-ya-later/issues/2) - Slice 2: Subtotal Calulation Logic
+- **Included**: Pure logic engine for Quantity * Price with comprehensive unit tests.\
+- **Value**: The core mathematical foundation for the calculator.
+- **PR**: https://github.com/TiffRBarclay/retail-ya-later/pull/12
+
+### [Issue 3](https://github.com/TiffRBarclay/retail-ya-later/issues/3) - Slice 3: Basic UI Input
+- **Included**: Reusable, documented InputField component and reactive state management.
+- **Value**: Provides the first user-facing interaction for raw price calculations.
+- **PR**: https://github.com/TiffRBarclay/retail-ya-later/pull/13
+
+### [Issue 4](https://github.com/TiffRBarclay/retail-ya-later/issues/4) - Slice 4: Discount Logic (Tier 1)
+- **Included**: Implementation of the initial 3% discount threshold for totals over $1,000.
+- **Value**: Introduces the first business rule to reward high-value orders.
+- **PR**: https://github.com/TiffRBarclay/retail-ya-later/pull/14
+
+### [Issue 5](https://github.com/TiffRBarclay/retail-ya-later/issues/5) - Slice 5: Full Discount Tiers
+- **Included**: Configuration-driven logic for all tiers ($5k, $7k, $10k, $50k) and parametrized tests.
+- **Value**: Satisfies the full bulk-discount requirement of the product specification.
+- **PR**: https://github.com/TiffRBarclay/retail-ya-later/pull/15
+
+### [Issue 7](https://github.com/TiffRBarclay/retail-ya-later/issues/7) - Slice 7: Region Input UI
+- **Included**: Region code input and tax mapping for AUK, WLG, WAI, CHC, and TAS.
+- **Value**: Finalizes the legal compliance requirement by applying regional taxes to the discounted total.
+- **PR**: https://github.com/TiffRBarclay/retail-ya-later/pull/16
+
+
