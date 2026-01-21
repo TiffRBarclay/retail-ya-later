@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { calculateDiscount, calculateSubtotal, getDiscountRate } from './calculator';
+import { calculateDiscount, calculateSubtotal, calculateTax, getDiscountRate } from './calculator';
 
-describe('calculateSubtotal', () => {
+describe('Subtotal Calculation', () => {
   it('should correctly multiply quantity and price', () => {
     expect(calculateSubtotal(100, 10)).toBe(1000);
     expect(calculateSubtotal(5, 19.99)).toBe(99.94999999999999);
@@ -51,5 +51,23 @@ describe('Full Discount Schedule', () => {
     it(`should apply ${expectedRate * 100}% discount for a total of $${total}`, () => {
       expect(getDiscountRate(total)).toBe(expectedRate);
     });
+  });
+});
+
+describe('Regional Tax Logic', () => {
+  it('should apply the correct tax for AUK (6.85%)', () => {
+    expect(calculateTax(1000, 'AUK')).toBe(68.5);
+  });
+
+  it('should apply the correct tax for WLG (8.00%)', () => {
+    expect(calculateTax(1000, 'WLG')).toBe(80);
+  });
+
+  it('should handle lowercase region codes', () => {
+    expect(calculateTax(1000, 'auk')).toBe(68.5);
+  });
+
+  it('should return 0 tax for unknown region codes', () => {
+    expect(calculateTax(1000, 'XYZ')).toBe(0);
   });
 });
