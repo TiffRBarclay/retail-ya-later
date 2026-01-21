@@ -19,7 +19,7 @@ npm run dev
 ### 1. Run Automated Tests
 
 ```bash
-npm install
+npm run test
 ```
 
 ## Thoughts & Reasoning
