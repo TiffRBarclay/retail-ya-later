@@ -1,7 +1,7 @@
 import { useMemo, useState, type ChangeEvent } from "react";
 import "./App.css";
 import InputField from "./components/InputField";
-import { calculateSubtotal } from "./utils/calculator";
+import { calculateDiscount, calculateSubtotal } from "./utils/calculator";
 
 function App() {
   const [quantity, setQuantity] = useState<number>(0);
@@ -22,6 +22,12 @@ function App() {
   const subtotal = useMemo(() => {
     return calculateSubtotal(Number(quantity), Number(price));
   }, [quantity, price]);
+
+  const discountAmount = useMemo(() => {
+    return calculateDiscount(subtotal);
+  }, [subtotal]);
+
+  const totalAfterDiscount = subtotal - discountAmount;
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4">
@@ -62,15 +68,28 @@ function App() {
             </div>
           </section>
 
-          {/* Result Section - You'll add your calculation display here */}
-          <section className="mt-10 pt-8 border-t border-slate-100">
-            <div className="flex justify-between items-center">
-              <span className="text-slate-500 font-medium">Subtotal</span>
+          {/* Results Section */}
+          <section className="mt-10 pt-8 border-t border-slate-100 space-y-3">
+            <div className="flex justify-between items-center text-slate-500">
+              <span>Subtotal</span>
+              <span>${subtotal.toFixed(2)}</span>
+            </div>
+
+            {discountAmount > 0 && (
+              <div className="flex justify-between items-center text-green-600 font-medium">
+                <span>Discount (3%)</span>
+                <span>-${discountAmount.toFixed(2)}</span>
+              </div>
+            )}
+
+            <div className="flex justify-between items-center pt-3 border-t border-slate-50">
+              <span className="text-slate-900 font-bold">
+                Total after Discount
+              </span>
               <span className="text-3xl font-bold text-blue-600">
                 $
-                {subtotal.toLocaleString(undefined, {
+                {totalAfterDiscount.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
                 })}
               </span>
             </div>
