@@ -58,9 +58,11 @@ npm install
 - **Value**: Satisfies the full bulk-discount requirement of the product specification.
 - **PR**: https://github.com/TiffRBarclay/retail-ya-later/pull/15
 
+*I am aware I accidently skipped 6*
+
 ### [Issue 7](https://github.com/TiffRBarclay/retail-ya-later/issues/7) - Slice 7: Region Input UI
 - **Included**: Region code input and tax mapping for AUK, WLG, WAI, CHC, and TAS.
 - **Value**: Finalizes the legal compliance requirement by applying regional taxes to the discounted total.
 - **PR**: https://github.com/TiffRBarclay/retail-ya-later/pull/16
 
-
+*(Individual PRs are also linked within the GitHub Issues tab)*
