@@ -1,6 +1,27 @@
-import './App.css'
+import { useMemo, useState, type ChangeEvent } from "react";
+import "./App.css";
+import InputField from "./components/InputField";
+import { calculateSubtotal } from "./utils/calculator";
 
 function App() {
+  const [quantity, setQuantity] = useState<number>(0);
+  const [price, setPrice] = useState<number>(0);
+
+  const handleQuantityChange = (e: ChangeEvent<HTMLInputElement>) => {
+    return setQuantity(Number(e.target.value));
+  };
+
+  const handlePriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+    return setPrice(Number(e.target.value));
+  };
+
+  /**
+   * Compute the subtotal whenever quantity or price changes.
+   * We convert strings to numbers here to keep the UI input flexible.
+   */
+  const subtotal = useMemo(() => {
+    return calculateSubtotal(Number(quantity), Number(price));
+  }, [quantity, price]);
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4">
@@ -20,25 +41,49 @@ function App() {
           {/* Inputs Section */}
           <section className="space-y-6">
             <div className="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center text-slate-400 italic">
-              Input incoming.... 
+              <div className="space-y-6">
+                <InputField
+                  id="quantity"
+                  label="Quantity"
+                  type="number"
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                  placeholder="0"
+                />
+                <InputField
+                  id="price"
+                  label="Price per item"
+                  type="number"
+                  value={price}
+                  onChange={handlePriceChange}
+                  placeholder="0"
+                />
+              </div>
             </div>
           </section>
 
           {/* Result Section - You'll add your calculation display here */}
           <section className="mt-10 pt-8 border-t border-slate-100">
-             <div className="text-center text-slate-300">
-               What will the results be???
-             </div>
+            <div className="flex justify-between items-center">
+              <span className="text-slate-500 font-medium">Subtotal</span>
+              <span className="text-3xl font-bold text-blue-600">
+                $
+                {subtotal.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            </div>
           </section>
 
           {/* Project tech stack */}
-        <footer className="mt-8 text-center text-sm text-slate-400">
-          Built with React, TypeScript, and Tailwind CSS v4.
-        </footer>
+          <footer className="mt-8 text-center text-sm text-slate-400">
+            Built with React, TypeScript, and Tailwind CSS v4.
+          </footer>
         </main>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
