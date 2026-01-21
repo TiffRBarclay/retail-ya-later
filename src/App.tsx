@@ -4,12 +4,14 @@ import InputField from "./components/InputField";
 import {
   calculateDiscount,
   calculateSubtotal,
+  calculateTax,
   getDiscountRate,
 } from "./utils/calculator";
 
 function App() {
   const [quantity, setQuantity] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
+  const [region, setRegion] = useState<string>("");
 
   const handleQuantityChange = (e: ChangeEvent<HTMLInputElement>) => {
     return setQuantity(Number(e.target.value));
@@ -17,6 +19,10 @@ function App() {
 
   const handlePriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     return setPrice(Number(e.target.value));
+  };
+
+  const handleRegionChange = (e: ChangeEvent<HTMLInputElement>) => {
+    return setRegion(e.target.value.toUpperCase());
   };
 
   /**
@@ -27,11 +33,16 @@ function App() {
     () => calculateSubtotal(Number(quantity), Number(price)),
     [quantity, price],
   );
-
   const discountRate = useMemo(() => getDiscountRate(subtotal), [subtotal]);
   const discountAmount = useMemo(() => calculateDiscount(subtotal), [subtotal]);
 
-  const totalAfterDiscount = subtotal - discountAmount;
+  const discountedSubtotal = subtotal - discountAmount;
+
+  const taxAmount = useMemo(
+    () => calculateTax(discountedSubtotal, region),
+    [discountedSubtotal, region],
+  );
+  const finalTotal = discountedSubtotal + taxAmount;
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4">
@@ -68,6 +79,13 @@ function App() {
                   onChange={handlePriceChange}
                   placeholder="0"
                 />
+                <InputField
+                  label="Region Code"
+                  id="region"
+                  value={region}
+                  onChange={handleRegionChange}
+                  placeholder="ABC"
+                />
               </div>
             </div>
           </section>
@@ -96,11 +114,23 @@ function App() {
               </div>
             )}
 
-            <div className="flex justify-between items-center pt-3 border-t border-slate-50">
-              <span className="text-slate-900 font-bold">Total</span>
-              <span className="text-3xl font-bold text-blue-600">
+            <div className="flex justify-between text-slate-500">
+              <span>Tax ({region.toUpperCase()})</span>
+              <span>
                 $
-                {totalAfterDiscount.toLocaleString(undefined, {
+                {taxAmount.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                })}
+              </span>
+            </div>
+
+            <div className="flex justify-between items-center pt-3 border-t border-slate-200">
+              <span className="text-xl font-bold text-slate-900">
+                Total Price
+              </span>
+              <span className="text-3xl font-black text-blue-600">
+                $
+                {finalTotal.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                 })}
               </span>
