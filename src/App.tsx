@@ -83,9 +83,7 @@ function App() {
             )}
 
             <div className="flex justify-between items-center pt-3 border-t border-slate-50">
-              <span className="text-slate-900 font-bold">
-                Total after Discount
-              </span>
+              <span className="text-slate-900 font-bold">Total</span>
               <span className="text-3xl font-bold text-blue-600">
                 $
                 {totalAfterDiscount.toLocaleString(undefined, {
